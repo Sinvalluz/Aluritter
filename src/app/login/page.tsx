@@ -5,23 +5,20 @@ import Input from '@/components/Input';
 import Title from '@/components/Title';
 import Iform from '@/interfaces/Form';
 import Link from 'next/link';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function register() {
+export default function Login() {
 	const { register, handleSubmit, reset } = useForm<Iform>();
-	const [erro, setErro] = useState(false);
 
 	const onSubmit = (data: Iform) => {
-		if (data.email !== '' && data.senha !== '') {
-			setErro(!erro);
-			console.log(`Email: ${data.email}`);
-			console.log(`Senha: ${data.senha}`);
+		if (data.email === '' && data.senha === '') {
 			reset();
 			return;
 		}
-		setErro(true);
+		console.log(`Email: ${data.email}`);
+		console.log(`Senha: ${data.senha}`);
 	};
+
 	return (
 		<main className='w-full min-h-screen flex items-center justify-center'>
 			<div className='w-4/5 max-w-96 text-center'>
@@ -41,16 +38,15 @@ export default function register() {
 							type='password'
 						/>
 					</div>
-					<ButtonSubmit>Criar uma nova conta</ButtonSubmit>
-					{erro && <p className='absolute text-red-500 top-28'>Preencha os campos de forma correta</p>}
+					<ButtonSubmit>Acessar plataforma</ButtonSubmit>
 				</form>
 
 				<span className='flex gap-1  itens-center justify-center flex-wrap'>
-					<p>Já possui uma conta?</p>
+					<p>Não possui uma conta?</p>
 					<Link
-						href={'/login'}
+						href={'/register'}
 						className='text-link'>
-						Acesse agora!
+						Crie uma agora!
 					</Link>
 				</span>
 			</div>
