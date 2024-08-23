@@ -6,17 +6,18 @@ import Title from '@/components/Title';
 import Iform from '@/interfaces/Form';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+	const router = useRouter();
 	const { register, handleSubmit, reset } = useForm<Iform>();
 
-	const onSubmit = (data: Iform) => {
+	const onSubmit = async (data: Iform) => {
 		if (data.email === '' && data.senha === '') {
 			reset();
 			return;
 		}
-		console.log(`Email: ${data.email}`);
-		console.log(`Senha: ${data.senha}`);
+		router.push('/home');
 	};
 
 	return (

@@ -4,21 +4,32 @@ import ButtonSubmit from '@/components/ButtonSubmit';
 import Input from '@/components/Input';
 import Title from '@/components/Title';
 import Iform from '@/interfaces/Form';
+import { firebase } from '@/utils/firebase/firebaseService';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function register() {
 	const { register, handleSubmit, reset } = useForm<Iform>();
 	const [erro, setErro] = useState(false);
 
-	const onSubmit = (data: Iform) => {
+	useEffect(() => {
+		firebase();
+	}, []);
+
+	const onSubmit = async (data: Iform) => {
 		if (data.email !== '' && data.senha !== '') {
-			setErro(!erro);
-			console.log(`Email: ${data.email}`);
-			console.log(`Senha: ${data.senha}`);
-			reset();
-			return;
+			try {
+				setErro(!erro);
+				const auth = getAuth();
+				createUserWithEmailAndPassword(auth, data.email, data.senha);
+				return;
+			} catch (error) {
+				console.log('deu merda');
+				console.error(error);
+				return;
+			}
 		}
 		setErro(true);
 	};
