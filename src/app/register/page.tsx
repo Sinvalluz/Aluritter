@@ -4,33 +4,32 @@ import ButtonSubmit from '@/components/ButtonSubmit';
 import Input from '@/components/Input';
 import Title from '@/components/Title';
 import Iform from '@/interfaces/Form';
-import { firebase } from '@/utils/firebase/firebaseService';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { checkIfEmailExists } from '@/utils/checkIfEmailExists';
+import { registerPass } from '@/utils/registerPass';
+
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function register() {
 	const { register, handleSubmit, reset } = useForm<Iform>();
 	const [erro, setErro] = useState(false);
-
-	useEffect(() => {
-		firebase();
-	}, []);
+	const [existeConta, setExisteConta] = useState(false);
 
 	const onSubmit = async (data: Iform) => {
 		if (data.email !== '' && data.senha !== '') {
-			try {
-				setErro(!erro);
-				const auth = getAuth();
-				createUserWithEmailAndPassword(auth, data.email, data.senha);
-				return;
-			} catch (error) {
-				console.log('deu merda');
-				console.error(error);
+			const verificacao = await registerPass(data.email, data.senha);
+			if (verificacao == false) {
+				setExisteConta(true);
+				setErro(false);
+				reset();
 				return;
 			}
+			setExisteConta(false);
+			reset();
+			return;
 		}
+		setExisteConta(false);
 		setErro(true);
 	};
 	return (
@@ -54,6 +53,7 @@ export default function register() {
 					</div>
 					<ButtonSubmit>Criar uma nova conta</ButtonSubmit>
 					{erro && <p className='absolute text-red-500 top-28'>Preencha os campos de forma correta</p>}
+					{existeConta && <p className='absolute text-red-500 top-28'>Ja existe uma conta com esse email</p>}
 				</form>
 
 				<span className='flex gap-1  itens-center justify-center flex-wrap'>
