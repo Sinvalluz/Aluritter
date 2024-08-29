@@ -7,17 +7,35 @@ import Iform from '@/interfaces/Form';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { loginPass } from '@/utils/loginPass';
 
 export default function Login() {
 	const router = useRouter();
 	const { register, handleSubmit, reset } = useForm<Iform>();
 
-	const onSubmit = async (data: Iform) => {
-		if (data.email === '' && data.senha === '') {
+	const onSubmitLogin = async (data: Iform) => {
+		try {
+			if (!data.email || !data.senha) {
+				throw new Error('Email e senha são obrigatórios');
+			}
+
+			const user = await loginPass(data.email, data.senha);
+
+			if (user) {
+				router.push(`/home?uid=${user.uid}`);
+				console.log(user);
+			} else {
+				console.error('Login failed: User is undefined');
+				reset();
+			}
+		} catch (error) {
+			if (error instanceof Error) {
+				console.error(error.message);
+			} else {
+				console.error('An unexpected error occurred');
+			}
 			reset();
-			return;
 		}
-		router.push('/home');
 	};
 
 	return (
@@ -25,7 +43,7 @@ export default function Login() {
 			<div className='w-4/5 max-w-96 text-center'>
 				<Title />
 				<form
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleSubmit(onSubmitLogin)}
 					className='flex flex-col mt-5 relative'>
 					<div className='flex flex-col gap-3'>
 						<Input

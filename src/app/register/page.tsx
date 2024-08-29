@@ -4,10 +4,9 @@ import ButtonSubmit from '@/components/ButtonSubmit';
 import Input from '@/components/Input';
 import Title from '@/components/Title';
 import Iform from '@/interfaces/Form';
-import { checkIfEmailExists } from '@/utils/checkIfEmailExists';
 import { registerPass } from '@/utils/registerPass';
-
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -15,16 +14,19 @@ export default function register() {
 	const { register, handleSubmit, reset } = useForm<Iform>();
 	const [erro, setErro] = useState(false);
 	const [existeConta, setExisteConta] = useState(false);
+	const router = useRouter();
 
 	const onSubmit = async (data: Iform) => {
-		if (data.email !== '' && data.senha !== '') {
+		if (data.email && data.senha) {
 			const verificacao = await registerPass(data.email, data.senha);
-			if (verificacao == false) {
+			if (!verificacao) {
 				setExisteConta(true);
 				setErro(false);
 				reset();
 				return;
 			}
+
+			router.push('/home');
 			setExisteConta(false);
 			reset();
 			return;

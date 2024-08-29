@@ -1,7 +1,11 @@
 import Link from 'next/link';
 import Title from '../Title';
 
-export default function HomeHeader() {
+interface HomeHeaderProps {
+	email: any;
+}
+
+export default function HomeHeader({ email }: HomeHeaderProps) {
 	return (
 		<header className='sm:h-11'>
 			<div className='py-3 sm:px-5 flex items-center flex-col sm:justify-between sm:flex-row'>
@@ -16,7 +20,7 @@ export default function HomeHeader() {
 					</Link>
 				</div>
 				<div className='flex items-center gap-3'>
-					<p>contato.sinvalluz@gmail.com</p>
+					<p>{email}</p>
 					<Link
 						href={'/login'}
 						className='py-1 px-2 bg-btnColorExit text-white rounded hidden sm:block'>
