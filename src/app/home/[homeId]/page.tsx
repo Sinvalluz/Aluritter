@@ -7,6 +7,7 @@ interface HomeProps {
 
 export default function Home({ params }: HomeProps) {
 	const decodedEmail = decodeURIComponent(params.homeId);
+	console.log(params);
 	return (
 		<div className='bg-backgroundHome min-h-screen flex flex-col'>
 			<HomeHeader email={decodedEmail} />

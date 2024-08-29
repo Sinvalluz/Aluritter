@@ -5,13 +5,15 @@ export const registerPass = async (email: string, password: string) => {
 	try {
 		const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 		const user = userCredential.user;
-		return true;
+		return { success: true, user, message: '' };
 	} catch (error: any) {
 		if (error.code === 'auth/email-already-in-use') {
-			return false;
+			return {
+				success: false,
+				message: 'Já existe uma conta com esse email registrado, tente novamente ou acesse sua conta',
+			};
 		} else {
-			// Tratar outros erros
-			console.error('Ocorreu um erro. Por favor, tente novamente.');
+			return { success: false, message: 'Ocorreu um erro. Por favor, tente novamente.' };
 		}
 	}
 };
