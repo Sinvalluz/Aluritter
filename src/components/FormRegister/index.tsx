@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Form from '../Form';
 import { useRouter } from 'next/navigation';
 import { registerPass } from '@/utils/registerPass';

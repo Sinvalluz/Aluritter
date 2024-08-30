@@ -9,7 +9,7 @@ import formValidation from '@/utils/formValidation';
 
 interface FormProps {
 	ButtonText: string;
-	Onsubmit: (email: string, pass: string) => Promise<string>;
+	Onsubmit: (email: string, pass: string) => Promise<string | void>;
 }
 
 export default function Form({ ButtonText, Onsubmit }: FormProps) {

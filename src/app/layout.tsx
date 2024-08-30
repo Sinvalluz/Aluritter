@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
+import { UserProvider } from '@/context';
+
 const roboto = Roboto({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
@@ -11,7 +13,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang='pt-br'>
-			<body className={roboto.className}>{children}</body>
+			<body className={roboto.className}>
+				<UserProvider>{children}</UserProvider>
+			</body>
 		</html>
 	);
 }
