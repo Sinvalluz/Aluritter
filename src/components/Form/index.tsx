@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import ButtonSubmit from '../ButtonSubmit';
 import Input from '../Input';
-import Iform from '@/interfaces/Form';
 import { useState } from 'react';
 import formValidation from '@/utils/formValidation';
+import { Iform } from '@/interfaces';
 
 interface FormProps {
 	ButtonText: string;

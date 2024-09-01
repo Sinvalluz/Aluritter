@@ -2,17 +2,18 @@
 
 import HomeHeader from '@/components/HomeHeader';
 import Main from '@/components/Main';
-import { UseUserContext } from '@/context';
+import { UserContext } from '@/context';
+import { useContext } from 'react';
 
 interface HomeProps {
 	params: any;
 }
 
 export default function Home({ params }: HomeProps) {
-	const { userLog, setUserLog } = UseUserContext();
+	const { user } = useContext(UserContext);
 	return (
 		<div className='bg-backgroundHome min-h-screen flex flex-col'>
-			<HomeHeader email={userLog} />
+			<HomeHeader email={user.email} />
 			<Main />
 		</div>
 	);

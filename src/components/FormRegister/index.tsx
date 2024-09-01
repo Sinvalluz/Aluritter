@@ -1,20 +1,14 @@
 'use client';
 
 import Form from '../Form';
-import { useRouter } from 'next/navigation';
-import { registerPass } from '@/utils/registerPass';
+import { useContext } from 'react';
+import { UserContext } from '@/context';
 
 export default function FormRegister() {
-	const router = useRouter();
+	const { signUp } = useContext(UserContext);
 
-	const onsubmit = async (email: string, pass: string): Promise<string> => {
-		const { success, user, message } = await registerPass(email, pass);
-		if (!success) {
-			return message;
-		}
-		router.push(`/home/${user?.uid}`);
-		console.log(user?.uid);
-		return message;
+	const onsubmit = async (email: string, password: string) => {
+		const { success, isEmail } = await signUp(email, password);
 	};
 
 	return (
