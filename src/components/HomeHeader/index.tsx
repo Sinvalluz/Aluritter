@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import Title from '../Title';
+import { useContext } from 'react';
+import { UserContext } from '@/context';
 
 interface HomeHeaderProps {
-	email: any;
+	email: string;
 }
 
 export default function HomeHeader({ email }: HomeHeaderProps) {
+	const { signOut } = useContext(UserContext);
 	return (
 		<header className='sm:h-11'>
 			<div className='py-3 sm:px-5 flex items-center flex-col sm:justify-between sm:flex-row'>
@@ -13,11 +16,12 @@ export default function HomeHeader({ email }: HomeHeaderProps) {
 					<Link href={'/'}>
 						<Title className='text-lg text-center' />
 					</Link>
-					<Link
-						href={'/login'}
+					<button
+						type='button'
+						onClick={() => signOut()}
 						className='py-1 px-2 bg-btnColorExit text-white rounded sm:hidden'>
 						sair
-					</Link>
+					</button>
 				</div>
 				<div className='flex items-center gap-3'>
 					<p>{email}</p>

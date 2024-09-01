@@ -1,14 +1,13 @@
+import { ISignIn } from '@/interfaces';
 import { auth } from '@/services/firebase/firebaseService';
 import { signInWithEmailAndPassword, User } from 'firebase/auth';
 
-export const loginPass = async (email: string, password: string): Promise<User | undefined> => {
+export const loginPass = async (email: string, password: string): Promise<ISignIn> => {
 	try {
 		const userCredential = await signInWithEmailAndPassword(auth, email, password);
 		const user: User = userCredential.user;
-		return user;
+		return { success: true, user };
 	} catch (error: any) {
-		const errorCode = error.code;
-		const errorMessage = error.message;
-		console.error(`Error ${errorCode}: ${errorMessage}`);
+		return { success: false, user: undefined };
 	}
 };

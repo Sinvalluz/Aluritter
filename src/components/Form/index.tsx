@@ -9,7 +9,7 @@ import { Iform } from '@/interfaces';
 
 interface FormProps {
 	ButtonText: string;
-	Onsubmit: (email: string, pass: string) => Promise<string | void>;
+	Onsubmit: (email: string, pass: string) => Promise<any>;
 }
 
 export default function Form({ ButtonText, Onsubmit }: FormProps) {
@@ -26,9 +26,8 @@ export default function Form({ ButtonText, Onsubmit }: FormProps) {
 			return;
 		}
 
-		// Chamando Onsubmit para lidar com a criação da conta
-		const message = await Onsubmit(data.email, data.senha);
-		if (message) {
+		const { success, message } = await Onsubmit(data.email, data.senha);
+		if (!success) {
 			setErro(true);
 			setErroMessage(message);
 			reset();

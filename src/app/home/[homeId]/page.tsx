@@ -5,11 +5,7 @@ import Main from '@/components/Main';
 import { UserContext } from '@/context';
 import { useContext } from 'react';
 
-interface HomeProps {
-	params: any;
-}
-
-export default function Home({ params }: HomeProps) {
+export default function Home() {
 	const { user } = useContext(UserContext);
 	return (
 		<div className='bg-backgroundHome min-h-screen flex flex-col'>
