@@ -5,14 +5,14 @@ import ButtonSubmit from '../ButtonSubmit';
 import Input from '../Input';
 import { useState } from 'react';
 import formValidation from '@/utils/formValidation';
-import { Iform } from '@/interfaces';
+import { Iform, IOnSubmitSignIn, IOnSubmitSignUP } from '@/interfaces';
 
 interface FormProps {
 	ButtonText: string;
-	Onsubmit: (email: string, pass: string) => Promise<any>;
+	onSubmitForm: (email: string, pass: string) => Promise<IOnSubmitSignUP | IOnSubmitSignIn>;
 }
 
-export default function Form({ ButtonText, Onsubmit }: FormProps) {
+export default function Form({ ButtonText, onSubmitForm }: FormProps) {
 	const { register, handleSubmit, reset } = useForm<Iform>();
 	const [erroMessage, setErroMessage] = useState<string>('');
 	const [erro, setErro] = useState(false);
@@ -26,12 +26,10 @@ export default function Form({ ButtonText, Onsubmit }: FormProps) {
 			return;
 		}
 
-		const { success, message } = await Onsubmit(data.email, data.senha);
-		if (!success) {
+		const { success, message } = await onSubmitForm(data.email, data.senha);
+		if (!success && message) {
 			setErro(true);
 			setErroMessage(message);
-			reset();
-			return;
 		}
 		reset();
 	};

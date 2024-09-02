@@ -9,7 +9,7 @@ export default function Aluritters() {
 			<div className='bg-white p-5 rounded'>
 				<span className='block mb-8 text-textPost'>Seven7OfCode com React =DDD</span>
 				<div className='flex flex-col sm:justify-between  sm:flex-row'>
-					<p className='sm:text-sm text-xs'>{user.email}</p>
+					<p className='sm:text-sm text-xs'>{user ? user.email : ''}</p>
 					<p className='text-textPost'>
 						{Data.toLocaleString('pt-br', {
 							day: '2-digit',

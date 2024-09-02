@@ -10,6 +10,7 @@ export const registerPass = async (email: string, password: string) => {
 		if (error.code !== 'auth/email-already-in-use') {
 			return { success: false, user: undefined, isEmail: true };
 		}
-		throw new Error(`Ocorreu um erro ao cadastrar o email e senha: ${error}`);
+		console.error(`Aconteceu um erro ao cadastrar: ${error}`);
+		return { success: false, user: undefined, isEmail: false };
 	}
 };

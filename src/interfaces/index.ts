@@ -8,18 +8,28 @@ export interface Iform {
 
 export interface ISignUp {
 	success: boolean;
-	message: string;
+	isEmail: boolean;
 }
 
 export interface ISignIn {
 	success: boolean;
-	user: User | undefined;
+	isEmailPass: boolean;
+}
+
+export interface IOnSubmitSignUP {
+	success: boolean;
+	message?: string;
+}
+export interface IOnSubmitSignIn {
+	success: boolean;
+	message?: string;
 }
 
 export interface IUserContext {
-	user: User;
-	setUser: React.Dispatch<SetStateAction<User>>;
+	user: User | undefined;
+	setUser: React.Dispatch<SetStateAction<User | undefined>>;
 	signUp: (email: string, password: string) => Promise<ISignUp>;
-	signIn: (email: string, password: string) => Promise<{ success: boolean; message: string }>;
+	signIn: (email: string, password: string) => Promise<ISignIn>;
 	signOut: () => void;
+	signed: boolean;
 }

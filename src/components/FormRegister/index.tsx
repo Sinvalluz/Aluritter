@@ -7,18 +7,18 @@ import { UserContext } from '@/context';
 export default function FormRegister() {
 	const { signUp } = useContext(UserContext);
 
-	const onsubmit = async (email: string, password: string) => {
-		const { success, message } = await signUp(email, password);
-		if (!message) {
-			return { success, message };
+	const onsubmitSignUP = async (email: string, password: string) => {
+		const { success, isEmail } = await signUp(email, password);
+		if (!isEmail) {
+			return { success, message: 'Erro ao cadastra o email' };
 		}
-		return { success, message };
+		return { success };
 	};
 
 	return (
 		<Form
 			ButtonText='Criar uma nova conta'
-			Onsubmit={onsubmit}
+			onSubmitForm={onsubmitSignUP}
 		/>
 	);
 }

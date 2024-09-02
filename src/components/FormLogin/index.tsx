@@ -8,31 +8,30 @@ import { User } from 'firebase/auth';
 
 export default function FormLogin() {
 	const router = useRouter();
-	const { user, setUser, signIn } = useContext(UserContext);
+	const { setUser, signIn, signed } = useContext(UserContext);
 
 	useEffect(() => {
-		function e() {
-			let userLocal = localStorage.getItem('@userInfos');
-			if (userLocal) {
-				const user: User = JSON.parse(userLocal);
-				router.push(`./home/${user.uid}`);
+		if (signed) {
+			const userData = localStorage.getItem('@userInfos');
+			if (userData) {
+				let jsonUserData: User = JSON.parse(userData);
+				router.push(`/home/${jsonUserData.uid}`);
 			}
 		}
-		e();
 	}, []);
 
-	const onsubmit = async (email: string, password: string): Promise<any> => {
-		const { success, message } = await signIn(email, password);
-		if (!success) {
-			return { success, message };
+	const onsubmitSignIn = async (email: string, password: string) => {
+		const { success, isEmailPass } = await signIn(email, password);
+		if (!isEmailPass && !success) {
+			return { success, message: 'O email, a senha ou ambos estão incorretos' };
 		}
-		return { success, message };
+		return { success };
 	};
 
 	return (
 		<Form
 			ButtonText='Acessar plataforma'
-			Onsubmit={onsubmit}
+			onSubmitForm={onsubmitSignIn}
 		/>
 	);
 }

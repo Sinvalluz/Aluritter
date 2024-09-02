@@ -18,18 +18,18 @@ export default function HomeHeader({ email }: HomeHeaderProps) {
 					</Link>
 					<button
 						type='button'
-						onClick={() => signOut()}
+						onClick={signOut}
 						className='py-1 px-2 bg-btnColorExit text-white rounded sm:hidden'>
 						sair
 					</button>
 				</div>
 				<div className='flex items-center gap-3'>
 					<p>{email}</p>
-					<Link
-						href={'/login'}
+					<button
+						onClick={signOut}
 						className='py-1 px-2 bg-btnColorExit text-white rounded hidden sm:block'>
 						sair
-					</Link>
+					</button>
 				</div>
 			</div>
 		</header>
